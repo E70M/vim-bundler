@@ -254,6 +254,17 @@ augroup bundler
   autocmd User ProjectionistDetect call s:ProjectionistDetect()
 augroup END
 
+" Neovim 0.10+ does not expand s: or <SID> in autocmd command strings at
+" registration time, so autocmds cannot call s:Setup or s:ProjectionistDetect
+" directly. These global wrappers allow vimrc to re-register the autocmds
+" using callable names.
+function! BundlerSetup_() abort
+  return s:Setup()
+endfunction
+function! BundlerProjectionistDetect_() abort
+  return s:ProjectionistDetect()
+endfunction
+
 " Section: Project
 
 let s:project_prototype = {}
